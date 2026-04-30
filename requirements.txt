@@ -1,0 +1,9 @@
+matplotlib>=3.8
+numpy>=1.26
+pandas>=2.2
+pm4py>=2.7
+pygraphviz>=1.11; platform_system != "Windows"
+graphviz>=0.20
+scikit-learn>=1.5
+seaborn>=0.13
+xgboost>=2.1
