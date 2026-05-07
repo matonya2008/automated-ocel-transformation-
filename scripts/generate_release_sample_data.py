@@ -4,6 +4,7 @@ from pathlib import Path
 import pandas as pd
 
 from generate_synthetic_ocel import CONFORMANCE_RULES, generate_full_dataset
+import generate_cross_sector_samples
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -28,6 +29,9 @@ def main() -> None:
 
     print(f"Wrote sample dataset to {dataset_path}")
     print(f"Wrote rule documentation to {rules_path}")
+
+    # Cross-sector stand-in datasets (non-proprietary)
+    generate_cross_sector_samples.main()
 
 
 if __name__ == "__main__":
