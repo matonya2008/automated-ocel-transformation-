@@ -3,7 +3,7 @@ Generate cross-sector sample datasets for the scalability evaluation.
 
 These are synthetic stand-ins for the industrial tube-manufacturing logs
 referenced in the manuscript. They share the same column schema as the
-real evaluation data so that ``cross_sector_eval.py`` can run end-to-end
+real evaluation data so that ``cross_sector_evaluation.py`` can run end-to-end
 without requiring proprietary files.
 """
 

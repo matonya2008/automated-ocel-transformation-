@@ -1,83 +1,77 @@
-# Automated OCEL Transformation — Code Availability Package
+# Automated OCEL Transformation — Code Availability
 
-This repository contains the Python code used to generate the manuscript
-figures and supporting synthetic-data utilities for:
+This repository contains the Python implementation of the three-stage pipeline described in:
 
 **"Automated OCEL Transformation for Real-Time Conformance in Complex Manufacturing"**
 
-No proprietary industrial datasets are committed. All inputs are either
-synthetic (deterministic, seed=42) or anonymised aggregate CSVs.
+The code is released for verification and academic reproduction purposes. All synthetic data, aggregate results and generated figures are produced at runtime by the scripts below.
 
 ---
 
-## System prerequisites
+## System Prerequisites
 
 1. **Python** ≥ 3.10
 2. **Graphviz** binaries (C engine) must be installed on your system:
-   - **Windows**: Download from https://graphviz.org/download/ and add `bin\` to PATH.
+   - **Windows**: https://graphviz.org/download/ (add `bin\` to PATH)
    - **macOS**: `brew install graphviz`
    - **Linux**: `sudo apt-get install graphviz`
 3. A working C compiler may be required for `xgboost` wheels.
 
 ---
 
-## Quick start
+## Quick Start
 
 ```powershell
-# 1. Install Python dependencies
+# 1. Install dependencies
 pip install -r requirements.txt
 
-# 2. Run the full end-to-end pipeline (deterministic, ~3–5 min)
+# 2. Run the full pipeline (deterministic, ~3–5 min)
 python scripts/run_all.py
 ```
 
-Generated figures are written to `outputs/`.
+Generated figures and CSVs are written to `outputs/`; synthetic sample data is written to `data/sample/`.
 
 ---
 
-## What each script does
+## Script Overview
 
-| Script | Purpose | Inputs | Outputs |
-|--------|---------|--------|---------|
-| `scripts/generate_synthetic_ocel.py` | Full timber-manufacturing simulator with 13 conformance rules | — | In-memory event list |
-| `scripts/generate_release_sample_data.py` | Creates the local 10 k-event timber sample + cross-sector stand-ins | `generate_synthetic_ocel.py` | `data/sample/*.csv`, `docs/conformance_rules_documentation.json` |
-| `scripts/run_role_classification_experiment.py` | Trains GA-XGBoost / SVM / DNN / RF on featurised column values; produces Stage-1 classifier bar chart | `data/sample/expanded_timber_ocel_10k.csv` | `outputs/Fig_Classifiers_Comparison_New.png`, `outputs/role_classification_results.csv` |
-| `scripts/cross_sector_eval.py` | Evaluates entropy-threshold active learning across three sector configs | `data/sample/*.csv` | `outputs/Fig_Scalability_Comparison.png` |
-| `scripts/generate_inductive_miner.py` | Discovers DFG / Inductive-Miner models via PM4Py and renders 5 publication-quality process-model PNGs | `data/sample/expanded_timber_ocel_10k.csv` | `outputs/Fig3_DFG_Frequency.png`, `outputs/Fig3_DFG_Performance.png`, `outputs/Fig3_Inductive_Miner_PetriNet.png`, `outputs/Fig3_Inductive_Miner_Decorated.png`, `outputs/Fig3_Process_Tree.png` |
-| `scripts/regenerate_ad_hoc_figures.py` | Rebuilds analytical figures from aggregate CSVs at 600 DPI (Revision 3) | `data/results/*.csv` | `outputs/Fig12_Learning_Curve.png`, `outputs/Fig_Active_Learning_Analysis.png`, `outputs/Fig_Feature_Type_Curves.png`, `outputs/Fig_Per_Rule_Performance.png` |
-| `scripts/pub_style.py` | Shared matplotlib style module: 600 DPI, MATLAB palette, serif 13 pt, tight bounding boxes | — | Imported by all figure scripts |
-| `scripts/run_all.py` | **Master runner** — executes the above in the correct order with fixed random seeds | — | All outputs in `outputs/` |
-
----
-
-## Reproducibility notes
-
-- **Determinism**: Every script sets `random_state=42` (scikit-learn / XGBoost) or `np.random.default_rng(42)` / `np.random.seed(42)` / `random.seed(42)`. Running the pipeline twice on the same machine produces **byte-identical PNG and CSV outputs**.
-- **Cross-sector stand-ins**: The tube-manufacturing logs and sensor files (`tube_logs_sample.csv`, `tube_sensor_sample.csv`) are synthetic stand-ins that preserve the original column schema. They are generated automatically by `generate_release_sample_data.py` so that `cross_sector_eval.py` can run end-to-end without requiring proprietary industrial files.
-- **Missing CSVs**: The `data/results/` folder contains the aggregate CSVs required by `regenerate_ad_hoc_figures.py` (active-learning curves, per-rule recall, feature-type comparison). These are summary statistics, not raw event logs.
+| Script | Purpose |
+|--------|---------|
+| `scripts/run_all.py` | Master runner — executes the full pipeline in order with fixed random seeds |
+| `scripts/generate_synthetic_ocel.py` | Timber-manufacturing simulator with 13 conformance rules |
+| `scripts/generate_release_sample_data.py` | Creates the 10 k-event timber sample and cross-sector stand-ins |
+| `scripts/generate_cross_sector_samples.py` | Generates tube-manufacturing synthetic stand-ins |
+| `scripts/role_classification.py` | Stage 1 — trains GA-XGBoost / SVM / DNN / RF and produces classifier comparison figure |
+| `scripts/cross_sector_evaluation.py` | Stage 1b — evaluates entropy-threshold active learning across three sector configs |
+| `scripts/generate_inductive_miner.py` | Stage 2 — discovers DFG / Inductive-Miner models and renders process-model figures |
+| `scripts/regenerate_figures.py` | Rebuilds analytical figures from aggregate CSVs at 600 DPI (Revision 3) |
+| `scripts/regenerate_miner_comparison.py` | Rebuilds the miner-comparison figure |
+| `scripts/figure_style.py` | Shared matplotlib style module (600 DPI, MATLAB palette, serif 13 pt) |
 
 ---
 
-## Folder layout
+## Reproducibility Notes
+
+- **Determinism**: Every script sets `random_state=42` (scikit-learn / XGBoost) or `np.random.default_rng(42)` / `random.seed(42)`. Running the pipeline twice on the same machine produces identical outputs.
+- **Cross-sector stand-ins**: The tube-manufacturing logs and sensor files are synthetic stand-ins that preserve the original column schema so that `cross_sector_evaluation.py` can run end-to-end without proprietary industrial files.
+- **Runtime outputs**: The `data/` and `outputs/` folders are created automatically if they do not exist.
+
+---
+
+## Folder Layout
 
 ```
-public_ocel_code_release/
-├── data/
-│   ├── sample/               # Generated by generate_release_sample_data.py
-│   └── results/              # Aggregate CSVs for ad-hoc figure regeneration
-├── docs/
-│   └── conformance_rules_documentation.json
-├── outputs/                  # Generated figures land here
 ├── scripts/
-│   ├── run_all.py            # <-- Start here
-│   ├── pub_style.py
+│   ├── run_all.py
+│   ├── figure_style.py
 │   ├── generate_synthetic_ocel.py
 │   ├── generate_release_sample_data.py
 │   ├── generate_cross_sector_samples.py
-│   ├── run_role_classification_experiment.py
-│   ├── cross_sector_eval.py
+│   ├── role_classification.py
+│   ├── cross_sector_evaluation.py
 │   ├── generate_inductive_miner.py
-│   └── regenerate_ad_hoc_figures.py
+│   ├── regenerate_figures.py
+│   └── regenerate_miner_comparison.py
 ├── requirements.txt
 ├── LICENSE
 └── README.md

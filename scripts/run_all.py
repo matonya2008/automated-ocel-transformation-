@@ -20,10 +20,10 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
 import generate_release_sample_data
-import run_role_classification_experiment
-import cross_sector_eval
+import role_classification
+import cross_sector_evaluation
 import generate_inductive_miner
-import regenerate_ad_hoc_figures
+import regenerate_figures
 
 
 def main() -> None:
@@ -35,16 +35,16 @@ def main() -> None:
     generate_release_sample_data.main()
 
     print("\n[2/5] Stage 1: Role-classifier comparison ...")
-    run_role_classification_experiment.run_experiment()
+    role_classification.run_experiment()
 
     print("\n[3/5] Stage 1b: Cross-sector scalability ...")
-    cross_sector_eval.run_cross_sector_validation()
+    cross_sector_evaluation.run_cross_sector_validation()
 
     print("\n[4/5] Stage 2: Process-mining figure generation ...")
     generate_inductive_miner.main()
 
     print("\n[5/5] Revision-3: Analytical figure regeneration ...")
-    regenerate_ad_hoc_figures.main()
+    regenerate_figures.main()
 
     print("\n" + "=" * 70)
     print("All done. Outputs are in the outputs/ directory.")

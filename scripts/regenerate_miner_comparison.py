@@ -8,7 +8,7 @@ Fixes applied vs. the original Revision-2 version:
   where they sit in empty space away from the plotted data.
 - Larger figure canvas (9 in) and generous padding so the legend and labels
   have room to breathe.
-- Uses the shared MATLAB palette from pub_style.py for consistency.
+- Uses the shared MATLAB palette from figure_style.py for consistency.
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-from pub_style import apply_pub_style, pub_savefig, PUB_DPI, MATLAB_COLORS
+from figure_style import apply_pub_style, pub_savefig, PUB_DPI, MATLAB_COLORS
 
 apply_pub_style()
 

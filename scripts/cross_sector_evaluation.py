@@ -9,7 +9,7 @@ from sklearn.preprocessing import LabelEncoder
 from xgboost import XGBClassifier
 import re
 
-from pub_style import apply_pub_style, pub_savefig, PUB_DPI, MATLAB_COLORS
+from figure_style import apply_pub_style, pub_savefig, PUB_DPI, MATLAB_COLORS
 
 apply_pub_style()
 

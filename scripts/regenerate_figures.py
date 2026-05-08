@@ -4,7 +4,7 @@ Regenerate the analytical figures that did not have a clean generator script.
 Rebuilt for Revision 3 to address Reviewer 1's figure-quality concern. Each
 figure is re-rendered from its authoritative CSV (or from a numerically
 reproducible formula in the case of the GA learning curve) at 600 DPI using
-the shared publication style in ``pub_style.py``.
+the shared publication style in ``figure_style.py``.
 """
 
 from __future__ import annotations
@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 from pathlib import Path
 
-from pub_style import apply_pub_style, pub_savefig, PUB_DPI, MATLAB_COLORS
+from figure_style import apply_pub_style, pub_savefig, PUB_DPI, MATLAB_COLORS
 
 apply_pub_style()
 

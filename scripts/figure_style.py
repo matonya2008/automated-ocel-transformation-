@@ -11,7 +11,7 @@ Applied to every figure embedded in Main.tex so print-ready figures have:
 
 Usage::
 
-    from pub_style import apply_pub_style, pub_savefig, add_axis_arrows, \
+    from figure_style import apply_pub_style, pub_savefig, add_axis_arrows, \
         finalize_matlab_axes, MATLAB_COLORS
 
     apply_pub_style()

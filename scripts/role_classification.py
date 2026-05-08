@@ -14,7 +14,7 @@ from sklearn.ensemble import RandomForestClassifier
 import time
 import re
 
-from pub_style import apply_pub_style, pub_savefig, PUB_DPI, MATLAB_COLORS
+from figure_style import apply_pub_style, pub_savefig, PUB_DPI, MATLAB_COLORS
 
 apply_pub_style()
 
