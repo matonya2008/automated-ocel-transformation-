@@ -2,13 +2,3 @@ __pycache__/
 *.pyc
 .venv/
 venv/
-outputs/
-data/
-docs/
-*.csv
-*.log
-*.aux
-*.out
-*.blg
-*.bbl
-*.pdf

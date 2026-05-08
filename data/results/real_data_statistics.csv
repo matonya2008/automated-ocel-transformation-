@@ -1,0 +1,10 @@
+Metric,Value
+Total Events,"54,976"
+Total Cases,"2,000"
+Conformance Rate,74.5%
+Non-Conformance Rate,25.5%
+Avg Yield (%),51.7
+Avg Quality Grade A (%),88.8
+Avg Downtime (h),0.90
+Median Cycle Time (h),72.3
+Most Common Violation,TR-2
